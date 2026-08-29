@@ -1,0 +1,19 @@
+node_modules/
+dist/
+*.mcpb
+.env
+.env.*
+!.env.example
+
+.vercel
+
+# Portfolio-only working material; the standalone public product repository
+# contains only customer-facing source, tests, fixtures, and release docs.
+AGENTS.md
+docs/archive/
+docs/project-state.md
+docs/README.md
+docs/squirrel-local-audit.json
+output/
+.playwright-cli/
+assets/icon-trade-neutral.png

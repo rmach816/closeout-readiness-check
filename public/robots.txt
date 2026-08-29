@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /activate
+Disallow: /manage
+Sitemap: https://closeoutcheck.m2ai.tech/sitemap.xml

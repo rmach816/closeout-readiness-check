@@ -1,0 +1,74 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/mcpb/main/schemas/mcpb-manifest-v0.4.schema.json",
+  "manifest_version": "0.4",
+  "name": "closeout-readiness-check",
+  "display_name": "Closeout Readiness Check",
+  "icon": "assets/icon.png",
+  "version": "0.1.0",
+  "description": "Check one electrical closeout folder against a fixed, cited baseline for human review.",
+  "long_description": "A private, read-only baseline check for one electrical construction closeout folder. Project files stay on the user's computer. Results require human review and never certify contract completeness or acceptance.",
+  "author": {
+    "name": "M2 AI, LLC",
+    "email": "rmach816@outlook.com",
+    "url": "https://github.com/rmach816"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/src/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/src/index.js",
+        "--project-root=${user_config.project_directory}",
+        "--license-service-url=https://closeoutcheck.m2ai.tech",
+        "--app-mode=live"
+      ],
+      "env": {
+        "PROJECT_ROOT": "${user_config.project_directory}",
+        "LICENSE_KEY": "${user_config.license_key}",
+        "LICENSE_SERVICE_URL": "https://closeoutcheck.m2ai.tech",
+        "APP_MODE": "live"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "check_closeout_folder",
+      "description": "Read one configured electrical closeout folder and return a cited baseline-readiness report for human review."
+    },
+    {
+      "name": "manage_closeout_subscription",
+      "description": "Open the Stripe billing portal for the purchasing computer without reading the configured project folder."
+    },
+    {
+      "name": "show_recovery_key",
+      "description": "Retrieve this subscription's recovery key from the purchasing computer for backup or activating another computer."
+    }
+  ],
+  "keywords": ["construction", "electrical closeout", "closeout checklist", "as-built", "panel schedules"],
+  "license": "MIT",
+  "privacy_policies": ["https://closeoutcheck.m2ai.tech/privacy"],
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": ["win32"],
+    "runtimes": {
+      "node": ">=20.16"
+    }
+  },
+  "user_config": {
+    "project_directory": {
+      "type": "directory",
+      "title": "Project folder",
+      "description": "Select the single electrical closeout folder this read-only check may access.",
+      "multiple": false,
+      "required": true
+    },
+    "license_key": {
+      "type": "string",
+      "title": "Recovery or company key (optional)",
+      "description": "Optional only for another computer or support recovery. The purchasing computer activates automatically after payment.",
+      "required": false,
+      "sensitive": true
+    }
+  }
+}
