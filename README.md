@@ -4,7 +4,7 @@ Closeout Readiness Check is a local Claude Desktop extension for electrical subc
 
 ## Current state
 
-The MVP source, automated tests, synthetic reference fixture, static website, and Vercel functions are implemented. The public download and paid activation remain unavailable until the dedicated Stripe configuration, custom domain, release package, and end-to-end billing proof are complete. The first authorized beta/customer folder is still required before marketplace launch because synthetic fixtures cannot prove real-world usefulness.
+The source, automated tests, synthetic reference fixture, website, custom domain, dedicated Stripe sandbox, and Vercel runtime are implemented. The current public package is an explicit technical beta: it uses Stripe test mode, processes no real charges, and exists for installation and end-to-end review. Live billing and Anthropic directory submission remain closed until Stripe business verification, owner or attorney review of the legal drafts, and the first authorized beta/customer folder prove the rules are useful on real closeout material.
 
 Run `npm ci` followed by `npm run check` for the build and 16-test local verification suite. Run `npm run pack` and `npm run package:check` to build and inspect the Claude Desktop package.
 
@@ -18,4 +18,4 @@ The extension reads only the folder selected during installation. Project files 
 
 ## Privacy Policy
 
-See https://closeoutcheck.m2ai.tech/privacy. Final legal text is an owner/attorney-review draft and must match the shipped data and billing behavior before release.
+See https://closeoutcheck.m2ai.tech/privacy. Final legal text is an owner/attorney-review draft and must match the shipped data and billing behavior before live billing or directory submission.
