@@ -57,4 +57,9 @@ const readEntry = (name) => {
 };
 
 if (!readEntry("README.md").toString("utf8").includes("## Privacy Policy")) throw new Error("Bundled README is missing the Privacy Policy section");
+const manifest = JSON.parse(readEntry("manifest.json").toString("utf8"));
+if (manifest.author.email !== "richard@m2ai.tech") throw new Error("Bundled author must use the business email");
+for (const name of ["README.md", "SECURITY.md", "docs/reviewer-guide.md"]) {
+  if (/[A-Z0-9._%+-]+@(?:outlook|hotmail|gmail)\.com/i.test(readEntry(name).toString("utf8"))) throw new Error(`Personal email is forbidden in bundled ${name}`);
+}
 console.log(`Package check passed: ${entries.size} entries; local compliance materials present; hosted public/ excluded.`);

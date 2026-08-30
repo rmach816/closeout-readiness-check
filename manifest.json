@@ -4,12 +4,12 @@
   "name": "closeout-readiness-check",
   "display_name": "Closeout Readiness Check",
   "icon": "assets/icon.png",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Check one electrical closeout folder against a fixed, cited baseline for human review.",
   "long_description": "A read-only baseline check for one electrical construction closeout folder. Files are scanned locally; findings, cited paths, and short excerpts are returned to Claude. Project documents are not uploaded to M2 AI's billing service. Results require human review and never certify contract completeness or acceptance.",
   "author": {
     "name": "M2 AI, LLC",
-    "email": "rmach816@outlook.com",
+    "email": "richard@m2ai.tech",
     "url": "https://github.com/rmach816"
   },
   "server": {

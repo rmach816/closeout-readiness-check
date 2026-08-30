@@ -4,7 +4,7 @@ Closeout Readiness Check is a local Claude Desktop extension for electrical subc
 
 ## Current state
 
-The source, automated tests, synthetic reference fixture, website, custom domain, dedicated Stripe sandbox, and Vercel runtime are implemented. Version 0.1.2 uses live Stripe billing at $99/month or $990/year after one free completed check. Version 0.1.1-beta.2 is the preserved test-mode artifact submitted for directory review; install the current package for live activation. Older or mismatched activation links are refused before checkout. The policies have received owner-authorized AI review and have been corrected to match the data flow. Real-project validation is the first private-beta milestone; synthetic engineering proof is not real-customer accuracy evidence. Directory submission and acceptance are separate from release availability.
+The source, automated tests, synthetic reference fixture, website, custom domain, dedicated Stripe sandbox, and Vercel runtime are implemented. Version 0.1.3 uses live Stripe billing at $99/month or $990/year after one free completed check. Version 0.1.1-beta.2 is the preserved test-mode artifact submitted for directory review; install the current package for live activation. Older or mismatched activation links are refused before checkout. The policies have received owner-authorized AI review and have been corrected to match the data flow. Real-project validation is the first private-beta milestone; synthetic engineering proof is not real-customer accuracy evidence. Directory submission and acceptance are separate from release availability.
 
 Run `npm ci` followed by `npm run check` for the build and local verification suite. Run `npm run pack` and `npm run package:check` to build and inspect the Claude Desktop package. The website opens checkout only from the purchasing computer's activation link; billing-portal return visits lead to the billing guide.
 
@@ -17,5 +17,7 @@ This is not part of any other portfolio product. It must have its own source, pu
 The extension reads only the folder selected during installation. Files are scanned locally. Findings, cited paths, and short excerpts are returned to Claude and may be processed by Anthropic under the user's Claude account terms and settings. M2 AI's hosted billing service does not receive project documents or report excerpts; it receives activation identifiers and public keys, selected plans, and subscription proofs or recovery authorization. Use only documents you are authorized to review and share with Claude. The product does not include OCR and does not certify contract completeness or acceptance.
 
 ## Privacy Policy
+
+Business support, privacy requests, security reports, and reviewer correspondence: [richard@m2ai.tech](mailto:richard@m2ai.tech). Personal sign-in addresses are not product contact addresses.
 
 See https://closeoutcheck.m2ai.tech/privacy. It describes local scanning, report details returned to Claude, hosted activation and billing information, support email processing, retention, and contact options.

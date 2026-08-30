@@ -1,6 +1,6 @@
 {
   "name": "closeout-readiness-check",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "description": "A read-only Claude Desktop baseline check for one electrical closeout folder.",
   "type": "module",

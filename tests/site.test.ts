@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
 
@@ -45,7 +45,26 @@ test("public disclosures distinguish local scans from findings returned to Claud
   const privacy = await readFile(join(publicRoot, "privacy/index.html"), "utf8");
   assert.match(privacy, /free-check allowance and installation key are maintained locally/);
   assert.match(privacy, /public key/);
-  assert.match(privacy, /hosted by Microsoft/);
+  assert.match(privacy, /business support mailbox at richard@m2ai\.tech is hosted by Zoho/);
+  assert.doesNotMatch(privacy, /Outlook|hosted by Microsoft/);
+});
+
+test("all public and packaged business contacts use only the company email", async () => {
+  const manifest = JSON.parse(await readFile(join(process.cwd(), "manifest.json"), "utf8"));
+  assert.equal(manifest.author.email, "richard@m2ai.tech");
+  const publicFiles = (await readdir(publicRoot, { recursive: true })).filter(file => /\.(html|js|xml|txt)$/.test(file));
+  const contactFiles = ["about/index.html", "contact/index.html", "manage/index.html", "support/index.html", "privacy/index.html", "terms/index.html"];
+  for (const file of publicFiles) {
+    const content = await readFile(join(publicRoot, file), "utf8");
+    assert.doesNotMatch(content, /[A-Z0-9._%+-]+@(?:outlook|hotmail|gmail)\.com/i, file);
+    for (const match of content.matchAll(/mailto:([^"?<>\s]+)/g)) assert.equal(match[1], "richard@m2ai.tech", file);
+  }
+  for (const file of contactFiles) assert.ok((await readFile(join(publicRoot, file), "utf8")).includes("mailto:richard@m2ai.tech"), file);
+  for (const file of ["SECURITY.md", "README.md", "docs/reviewer-guide.md"]) {
+    const content = await readFile(join(process.cwd(), file), "utf8");
+    assert.doesNotMatch(content, /[A-Z0-9._%+-]+@(?:outlook|hotmail|gmail)\.com/i, file);
+  }
+  assert.ok((await readFile(join(process.cwd(), "SECURITY.md"), "utf8")).includes("mailto:richard@m2ai.tech"));
 });
 
 test("published package and website agree on live billing and version", async () => {
