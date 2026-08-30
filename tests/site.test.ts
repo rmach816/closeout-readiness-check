@@ -74,7 +74,10 @@ test("published package and website agree on live billing and version", async ()
   assert.equal(manifest.version, pkg.version);
   assert.equal(manifest.server.mcp_config.env.APP_MODE, "live");
   assert.ok(manifest.server.mcp_config.args.includes("--app-mode=live"));
-  assert.ok(html.includes(`/v${pkg.version}/closeout-readiness-check-${pkg.version}.mcpb`));
+  assert.ok(html.includes('href="/download"'));
+  assert.doesNotMatch(html, /href="[^"]*releases\/download\//);
+  const routing = JSON.parse(await readFile(join(process.cwd(), "vercel.json"), "utf8"));
+  assert.ok(routing.rewrites.some((route: { source: string; destination: string }) => route.source === "/download" && route.destination === "/api/download"));
   assert.ok(html.includes('data-billing-mode="live"'));
   assert.doesNotMatch(html, /Test monthly|Test annual|test-card|no real payment|sandbox|no real charges/i);
 });
