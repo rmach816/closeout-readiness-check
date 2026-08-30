@@ -85,7 +85,7 @@ function activationUrl(state: { activationId: string; publicKey: string }, envir
 export function createServer(projectRoot: string, options: CreateServerOptions = {}): McpServer {
   const server = new McpServer({
     name: "closeout-readiness-check",
-    version: "0.1.0"
+    version: "0.1.1-beta.1"
   });
 
   server.registerTool(

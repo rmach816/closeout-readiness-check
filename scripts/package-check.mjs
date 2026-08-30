@@ -32,6 +32,15 @@ for (let index = 0; index < entryCount; index += 1) {
 for (const required of ["manifest.json", "README.md", "SECURITY.md", "LICENSE", "docs/reviewer-guide.md"]) {
   if (!entries.has(required)) throw new Error(`MCPB is missing required package material: ${required}`);
 }
+for (const requiredRuntime of [
+  "node_modules/@modelcontextprotocol/sdk/package.json",
+  "node_modules/exceljs/package.json",
+  "node_modules/mammoth/package.json",
+  "node_modules/pdf-parse/package.json",
+  "node_modules/zod/package.json"
+]) {
+  if (!entries.has(requiredRuntime)) throw new Error(`MCPB is missing required runtime dependency: ${requiredRuntime}`);
+}
 const forbiddenPrefixes = ["public/", "output/", ".playwright-cli/"];
 const forbiddenEntry = [...entries.keys()].find((entry) => forbiddenPrefixes.some((prefix) => entry.startsWith(prefix)));
 if (forbiddenEntry) throw new Error(`MCPB must not include local website or QA artifact: ${forbiddenEntry}`);

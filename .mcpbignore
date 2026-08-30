@@ -15,7 +15,6 @@ coverage/**
 tsconfig.json
 .gitignore
 .vercel/**
-node_modules/**
 AGENTS.md
 assets/icon-trade-neutral.png
 scripts/create-synthetic-closeout-package.mjs
