@@ -18,6 +18,7 @@ export async function POST(request: Request): Promise<Response> {
     const form = new URLSearchParams({
       mode: "subscription",
       allow_promotion_codes: "true",
+      "consent_collection[terms_of_service]": "required",
       "line_items[0][price]": price,
       "line_items[0][quantity]": "1",
       success_url: `${config.siteUrl}/activate?session_id={CHECKOUT_SESSION_ID}`,

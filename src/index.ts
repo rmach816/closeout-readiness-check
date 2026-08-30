@@ -85,14 +85,14 @@ function activationUrl(state: { activationId: string; publicKey: string }, envir
 export function createServer(projectRoot: string, options: CreateServerOptions = {}): McpServer {
   const server = new McpServer({
     name: "closeout-readiness-check",
-    version: "0.1.1-beta.1"
+    version: "0.1.1-beta.2"
   });
 
   server.registerTool(
     "check_closeout_folder",
     {
       title: "Check closeout folder",
-      description: "Read one configured electrical closeout folder and return a deterministic, cited baseline-readiness report for human review. Project content stays local; the managed build makes a bounded entitlement check before inventory. This is not a certification or contract-completeness decision.",
+      description: "Read one configured electrical closeout folder and return a deterministic, cited baseline-readiness report for human review. Files are scanned locally; findings and cited excerpts are returned to Claude, not M2 AI's billing service. The managed build verifies the local free-check allowance or subscription before inventory. This is not a certification or contract-completeness decision.",
       inputSchema: {},
       annotations: {
         readOnlyHint: true,

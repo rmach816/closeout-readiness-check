@@ -23,3 +23,26 @@ test("search controls and sitemap use only the intended product domain", async (
   assert.match(sitemap, /closeoutcheck\.m2ai\.tech\/about/);
   assert.doesNotMatch(`${sitemap}\n${robots}`, /recoveryaudit|payerscore/i);
 });
+
+test("public disclosures distinguish local scans from findings returned to Claude", async () => {
+  for (const page of pages) {
+    const html = await readFile(join(publicRoot, page), "utf8");
+    assert.match(html, /excerpts/i, `${page} must disclose excerpts`);
+    assert.match(html, /Claude/);
+    assert.doesNotMatch(html, /Project content (?:stays|does not leave)|Project filenames and extracted content stay|Pre-production legal draft|licensed-attorney review/);
+  }
+  for (const page of ["terms/index.html", "privacy/index.html"]) {
+    const html = await readFile(join(publicRoot, page), "utf8");
+    assert.match(html, /Technical beta/);
+    assert.match(html, /no real subscription charges/);
+  }
+  const terms = await readFile(join(publicRoot, "terms/index.html"), "utf8");
+  assert.match(terms, /\$99 per month or \$990 per year/);
+  assert.match(terms, /first annual purchase and each annual renewal/);
+  assert.match(terms, /seven calendar days/);
+  assert.match(terms, /Fort Bend County, Texas/);
+  const privacy = await readFile(join(publicRoot, "privacy/index.html"), "utf8");
+  assert.match(privacy, /free-check allowance and installation key are maintained locally/);
+  assert.match(privacy, /public key/);
+  assert.match(privacy, /hosted by Microsoft/);
+});

@@ -42,6 +42,7 @@ test("checkout uses dedicated closeout prices, promotion codes, and namespace me
     assert.equal(response.status, 200);
     assert.match(requestBody, /price_closeout_monthly/);
     assert.match(requestBody, /allow_promotion_codes=true/);
+    assert.equal(new URLSearchParams(requestBody).get("consent_collection[terms_of_service]"), "required");
     assert.match(requestBody, /closeout_activation_id/);
     assert.doesNotMatch(requestBody, /cora_|change.order|recoveryaudit/);
   } finally {
