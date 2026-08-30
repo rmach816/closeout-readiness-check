@@ -25,7 +25,7 @@ export interface LocalState {
   privateKey: string;
   trialCompleted: boolean;
   recoveryKeyFingerprint?: string;
-  paidProof?: EntitlementDecision & { checkedAt: string };
+  paidProof?: EntitlementDecision & { checkedAt: string; mode?: "test" | "live" };
 }
 
 export interface StateStore {
@@ -397,13 +397,13 @@ export async function authorizeAudit(options: {
       await store.save(state);
       return { allowed: false, source: "blocked", message: "An active subscription is required before the folder can be read.", state };
     }
-    state.paidProof = validated;
+    state.paidProof = { ...validated, mode: environment.APP_MODE?.trim() === "live" ? "live" : "test" };
     const recoveryKey = environment.LICENSE_KEY?.trim();
     if (recoveryKey) state.recoveryKeyFingerprint = recoveryKeyFingerprint(recoveryKey);
     await store.save(state);
     return { allowed: true, source: "remote", state };
   } catch {
-    if (state.paidProof && allowsCachedOutage(state.paidProof, state.paidProof.checkedAt, options.now ?? new Date())) {
+    if (state.paidProof?.mode && state.paidProof.mode === environment.APP_MODE?.trim() && allowsCachedOutage(state.paidProof, state.paidProof.checkedAt, options.now ?? new Date())) {
       return { allowed: true, source: "outage-cache", state };
     }
     return { allowed: false, source: "blocked", message: "Unable to verify access. Check your connection or try again later.", state };

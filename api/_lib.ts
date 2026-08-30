@@ -95,6 +95,7 @@ export async function stripeRequest(
     },
     body: options.form?.toString()
   });
+  if (response.status === 429 || response.status >= 500) throw new Error("Stripe is temporarily unavailable");
   if (!response.ok) return undefined;
   const payload: unknown = await response.json();
   return typeof payload === "object" && payload !== null ? payload as Record<string, unknown> : undefined;

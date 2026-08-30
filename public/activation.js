@@ -2,6 +2,7 @@
   const query = new URLSearchParams(window.location.search);
   const activationId = query.get("activation_id");
   const publicKey = query.get("public_key");
+  const mode = query.get("mode");
   const panel = document.getElementById("computer-activation");
   const plans = document.getElementById("activation-plans");
   const status = document.getElementById("activation-status");
@@ -10,6 +11,10 @@
   panel.hidden = false;
   if (!/^[A-Za-z0-9_-]{16,64}$/.test(activationId || "") || !/^[A-Za-z0-9_-]{32,512}$/.test(publicKey || "")) {
     status.textContent = "Open the original activation link from your completed check in Claude Desktop to choose a plan.";
+    return;
+  }
+  if ((mode !== "test" && mode !== "live") || mode !== panel.dataset.billingMode) {
+    status.textContent = "This activation link is from an older or different billing version. Download the current extension below, install it, and run the check again for a new activation link. Do not purchase twice if you already paid.";
     return;
   }
   plans.hidden = false;
@@ -30,7 +35,7 @@
         const response = await fetch("/api/checkout", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ action: "checkout", plan, activationId, publicKey }),
+          body: JSON.stringify({ action: "checkout", mode, plan, activationId, publicKey }),
           signal: controller.signal
         });
         if (!response.ok) throw new Error("Checkout unavailable");

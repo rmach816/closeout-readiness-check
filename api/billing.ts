@@ -8,6 +8,7 @@ export async function POST(request: Request): Promise<Response> {
   if (!body || (body.mode !== undefined && asString(body.mode, 8) !== config.mode)) return problem(400, "Invalid request");
   const action = asString(body.action, 16);
   if (action === "checkout") {
+    if (body.mode !== config.mode) return problem(400, "Use an activation link from the current extension for this billing environment.");
     const plan = asString(body.plan, 16);
     const activationId = asString(body.activationId, 64);
     const publicKey = asString(body.publicKey, 512);

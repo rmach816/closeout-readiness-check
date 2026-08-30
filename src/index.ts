@@ -71,11 +71,13 @@ export function resolveRuntimeEnvironment(
 
 function activationUrl(state: { activationId: string; publicKey: string }, environment: NodeJS.ProcessEnv): string | undefined {
   const base = environment.LICENSE_SERVICE_URL?.trim();
-  if (!base) return undefined;
+  const mode = environment.APP_MODE?.trim();
+  if (!base || (mode !== "test" && mode !== "live")) return undefined;
   try {
     const url = new URL("/", base);
     url.searchParams.set("activation_id", state.activationId);
     url.searchParams.set("public_key", state.publicKey);
+    url.searchParams.set("mode", mode);
     return url.toString();
   } catch {
     return undefined;
@@ -85,7 +87,7 @@ function activationUrl(state: { activationId: string; publicKey: string }, envir
 export function createServer(projectRoot: string, options: CreateServerOptions = {}): McpServer {
   const server = new McpServer({
     name: "closeout-readiness-check",
-    version: "0.1.1-beta.2"
+    version: "0.1.2"
   });
 
   server.registerTool(
@@ -108,9 +110,11 @@ export function createServer(projectRoot: string, options: CreateServerOptions =
         const store = options.stateStore ?? createFileStateStore(environment);
         entitlement = await authorizeAudit({ store, environment, fetcher: options.fetcher, now: options.now });
         if (!entitlement.allowed) {
+          const link = entitlement.state?.trialCompleted ? activationUrl(entitlement.state, environment) : undefined;
+          const message = entitlement.message ?? "An active subscription is required before the folder can be read.";
           return {
             isError: true,
-            content: [{ type: "text" as const, text: entitlement.message ?? "An active subscription is required before the folder can be read." }]
+            content: [{ type: "text" as const, text: link ? `${message}\nTo activate this computer, choose a plan at ${link}. If you already paid, retry rather than purchasing again.` : message }]
           };
         }
         const result = await (options.auditFolder ?? auditFolder)(projectRoot);

@@ -7,7 +7,7 @@ import { runInNewContext } from "node:vm";
 const script = await readFile(join(process.cwd(), "public", "activation.js"), "utf8");
 const activationId = "a".repeat(24);
 const publicKey = "b".repeat(59);
-const validQuery = `?activation_id=${activationId}&public_key=${publicKey}`;
+const validQuery = `?activation_id=${activationId}&public_key=${publicKey}&mode=live`;
 
 function harness(query: string, fetcher: (...args: unknown[]) => Promise<unknown>) {
   const handlers: Record<string, () => Promise<void>> = {};
@@ -15,7 +15,7 @@ function harness(query: string, fetcher: (...args: unknown[]) => Promise<unknown
     dataset: { checkoutPlan: plan }, disabled: false,
     addEventListener: (_event: string, handler: () => Promise<void>) => { handlers[plan] = handler; }
   }));
-  const panel = { hidden: true };
+  const panel = { hidden: true, dataset: { billingMode: "live" } };
   const plans = { hidden: true, querySelectorAll: () => buttons };
   const status = { textContent: "", dataset: { kind: "" } };
   const elements: Record<string, unknown> = { "computer-activation": panel, "activation-plans": plans, "activation-status": status };
@@ -53,9 +53,21 @@ test("both plans send the purchasing computer identifiers and redirect only to S
     });
     assert.equal(page.plans.hidden, false);
     await page.handlers[plan]!();
-    assert.deepEqual(sent, { action: "checkout", plan, activationId, publicKey });
+    assert.deepEqual(sent, { action: "checkout", mode: "live", plan, activationId, publicKey });
     assert.equal(page.redirected(), "https://checkout.stripe.com/c/pay/cs_test_fixture");
   }
+});
+
+test("old beta and mismatched-mode links cannot open live checkout", () => {
+  let calls = 0;
+  for (const mode of ["", "test", "invalid"]) {
+    const page = harness(`?activation_id=${activationId}&public_key=${publicKey}${mode ? `&mode=${mode}` : ""}`, async () => { calls++; return {}; });
+    assert.equal(page.panel.hidden, false);
+    assert.equal(page.plans.hidden, true);
+    assert.match(page.status.textContent, /Download the current extension/);
+    assert.deepEqual(Object.keys(page.handlers), []);
+  }
+  assert.equal(calls, 0);
 });
 
 test("network failures and untrusted redirects show a retryable error without navigation", async () => {
@@ -89,7 +101,8 @@ test("the public page wires activation and billing returns to a real guide secti
   const html = await readFile(join(process.cwd(), "public/index.html"), "utf8");
   const guide = await readFile(join(process.cwd(), "public/guide/index.html"), "utf8");
   const config = JSON.parse(await readFile(join(process.cwd(), "vercel.json"), "utf8"));
-  assert.match(html, /src="\/activation\.js" defer/);
+  assert.ok(html.includes('src="/activation.js?v=live-1" defer'));
+  assert.ok(html.includes('data-billing-mode="live"'));
   assert.ok(html.includes('href="/site.css?v=activation-1"'), "activation styling must bypass pre-checkout browser caches");
   const css = await readFile(join(process.cwd(), "public/site.css"), "utf8");
   assert.match(css, /\[hidden\]\s*\{\s*display:\s*none\s*!important;/);

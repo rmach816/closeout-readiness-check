@@ -33,8 +33,9 @@ test("public disclosures distinguish local scans from findings returned to Claud
   }
   for (const page of ["terms/index.html", "privacy/index.html"]) {
     const html = await readFile(join(publicRoot, page), "utf8");
-    assert.match(html, /Technical beta/);
-    assert.match(html, /no real subscription charges/);
+    assert.match(html, /Early release/);
+    assert.match(html, /Paid subscriptions are billed in USD through Stripe/);
+    assert.doesNotMatch(html, /no real subscription charges|Checkout currently uses Stripe test mode/);
   }
   const terms = await readFile(join(publicRoot, "terms/index.html"), "utf8");
   assert.match(terms, /\$99 per month or \$990 per year/);
@@ -45,4 +46,16 @@ test("public disclosures distinguish local scans from findings returned to Claud
   assert.match(privacy, /free-check allowance and installation key are maintained locally/);
   assert.match(privacy, /public key/);
   assert.match(privacy, /hosted by Microsoft/);
+});
+
+test("published package and website agree on live billing and version", async () => {
+  const manifest = JSON.parse(await readFile(join(process.cwd(), "manifest.json"), "utf8"));
+  const pkg = JSON.parse(await readFile(join(process.cwd(), "package.json"), "utf8"));
+  const html = await readFile(join(publicRoot, "index.html"), "utf8");
+  assert.equal(manifest.version, pkg.version);
+  assert.equal(manifest.server.mcp_config.env.APP_MODE, "live");
+  assert.ok(manifest.server.mcp_config.args.includes("--app-mode=live"));
+  assert.ok(html.includes(`/v${pkg.version}/closeout-readiness-check-${pkg.version}.mcpb`));
+  assert.ok(html.includes('data-billing-mode="live"'));
+  assert.doesNotMatch(html, /Test monthly|Test annual|test-card|no real payment|sandbox|no real charges/i);
 });

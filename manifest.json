@@ -4,7 +4,7 @@
   "name": "closeout-readiness-check",
   "display_name": "Closeout Readiness Check",
   "icon": "assets/icon.png",
-  "version": "0.1.1-beta.2",
+  "version": "0.1.2",
   "description": "Check one electrical closeout folder against a fixed, cited baseline for human review.",
   "long_description": "A read-only baseline check for one electrical construction closeout folder. Files are scanned locally; findings, cited paths, and short excerpts are returned to Claude. Project documents are not uploaded to M2 AI's billing service. Results require human review and never certify contract completeness or acceptance.",
   "author": {
@@ -21,13 +21,13 @@
         "${__dirname}/dist/src/index.js",
         "--project-root=${user_config.project_directory}",
         "--license-service-url=https://closeoutcheck.m2ai.tech",
-        "--app-mode=test"
+        "--app-mode=live"
       ],
       "env": {
         "PROJECT_ROOT": "${user_config.project_directory}",
         "LICENSE_KEY": "${user_config.license_key}",
         "LICENSE_SERVICE_URL": "https://closeoutcheck.m2ai.tech",
-        "APP_MODE": "test"
+        "APP_MODE": "live"
       }
     }
   },
