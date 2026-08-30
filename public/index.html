@@ -18,6 +18,18 @@
 <header><nav class="shell nav" aria-label="Primary"><a class="brand" href="/"><img src="/icon.png" width="512" height="512" alt="Closeout Readiness Check icon">Closeout Readiness Check</a><div class="nav-links"><a href="/guide">Electrical closeout guide</a><a href="#pricing">Pricing</a><a href="/support">Support</a></div></nav></header>
 <main id="main-content" tabindex="-1">
   <div class="shell"><p class="notice"><strong>Technical beta:</strong> billing is in Stripe sandbox mode and no real charges are processed. Use the package for installation and review only; live subscriptions open after final launch gates.</p></div>
+  <section id="computer-activation" class="shell section" aria-labelledby="activation-heading" hidden>
+    <p class="eyebrow">ACTIVATE THE PURCHASING COMPUTER</p>
+    <h2 id="activation-heading">Continue after your free check.</h2>
+    <p>This link connects checkout to the computer that ran your check. No account or manual key is needed. After checkout, return to Claude Desktop and rerun the check.</p>
+    <p>Technical beta: use Stripe test-card details only. No real payment will be taken.</p>
+    <div id="activation-plans" class="actions" hidden>
+      <button type="button" data-checkout-plan="monthly">Test monthly activation — $99/month</button>
+      <button type="button" data-checkout-plan="annual">Test annual activation — $990/year</button>
+    </div>
+    <p id="activation-status" class="status" role="status" aria-live="polite"></p>
+    <p class="micro">Review our <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>. Project files stay on your computer.</p>
+  </section>
   <section class="shell hero"><div><p class="eyebrow">FOR ELECTRICAL SUBCONTRACTORS</p><h1>Check your electrical closeout folder before you submit it.</h1><p class="lede">A private, read-only baseline check inside Claude Desktop. Find likely gaps in as-built one-lines, panel schedules, testing records, O&amp;M manuals, warranties, spare parts, and training records—then let a person make the final call.</p><p class="actions"><a class="button" href="https://github.com/rmach816/closeout-readiness-check/releases/download/v0.1.1-beta.1/closeout-readiness-check-0.1.1-beta.1.mcpb">Download for Claude Desktop</a><a class="text-link" href="/guide">See what it checks →</a></p><p class="micro">One free completed check. No project files uploaded. No OCR. No certification.</p></div><aside class="audit-slip" aria-label="Example baseline report"><div class="slip-head"><span>BASELINE REPORT</span><span>LOCAL</span></div><dl><dt>Panel schedules</dt><dd>FOUND</dd><dt>Acceptance testing</dt><dd>DATE REVIEW</dd><dt>O&amp;M manuals</dt><dd>FOUND</dd><dt>Training record</dt><dd class="flag">HUMAN REVIEW</dd></dl></aside></section>
   <section class="band"><div class="shell split"><div><p class="eyebrow">USEFUL BEFORE HANDOFF</p><h2>It checks the folder you select—nothing more.</h2></div><div><p>Readable files are matched with fixed, transparent rules and cited back to their relative path. Unreadable files, image-only documents, and incomplete scans are never treated as proof that something is present or absent.</p><p><strong>Your contract and project specifications remain authoritative.</strong> This is a second set of eyes for preparation.</p></div></div></section>
   <section class="shell section" id="pricing"><p class="eyebrow">SIMPLE PRICING</p><h2>Start locally. Keep the workflow private.</h2><div class="prices"><article><h3>Free check</h3><p class="plan-price">$0</p><p>One completed baseline check on the purchasing computer. No card required.</p></article><article class="featured"><h3>Managed build</h3><p class="plan-price">$99<span>/month</span></p><p>Unlimited reasonable internal checks, activation on the purchasing computer, and recovery for another computer.</p><a class="button" href="/guide#activate">How activation works</a></article><article><h3>Annual</h3><p class="plan-price">$990<span>/year</span></p><p>Same product and billing portal with two months included.</p></article></div></section>
@@ -26,4 +38,5 @@
   <section class="shell section"><div class="split"><div><p class="eyebrow">BUILT FOR A NARROW JOB</p><h2>Transparent rules, local project content.</h2></div><div><p>Closeout Readiness Check is built by M2 AI, LLC as a focused preparation tool for electrical subcontractor project managers. The baseline is fixed and visible, findings cite their source, and uncertain inputs stay uncertain.</p><p><a class="text-link" href="/about">About the product and company →</a></p></div></div></section>
 </main>
 <footer><div class="shell foot"><span>© M2 AI, LLC</span><nav><a href="/about">About</a><a href="/contact">Contact</a><a href="/support">Support</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a></nav></div></footer>
+<script src="/activation.js" defer></script>
 </body></html>

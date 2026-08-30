@@ -1,5 +1,8 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/manage", "destination": "/guide#billing", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/activate", "destination": "/api/activate" }
   ],

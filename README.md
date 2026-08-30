@@ -6,7 +6,7 @@ Closeout Readiness Check is a local Claude Desktop extension for electrical subc
 
 The source, automated tests, synthetic reference fixture, website, custom domain, dedicated Stripe sandbox, and Vercel runtime are implemented. The current public package is an explicit technical beta: it uses Stripe test mode, processes no real charges, and exists for installation and end-to-end review. Live billing and Anthropic directory submission remain closed until Stripe business verification, owner or attorney review of the legal drafts, and the first authorized beta/customer folder prove the rules are useful on real closeout material.
 
-Run `npm ci` followed by `npm run check` for the build and 16-test local verification suite. Run `npm run pack` and `npm run package:check` to build and inspect the Claude Desktop package.
+Run `npm ci` followed by `npm run check` for the build and local verification suite. Run `npm run pack` and `npm run package:check` to build and inspect the Claude Desktop package. The website opens checkout only from the purchasing computer's activation link; billing-portal return visits lead to the billing guide.
 
 ## Isolation boundary
 
