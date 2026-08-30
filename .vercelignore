@@ -1,0 +1,13 @@
+.git/
+node_modules/
+dist/
+output/
+*.mcpb
+.env
+.env.*
+AGENTS.md
+docs/
+fixtures/
+tests/
+scripts/
+assets/
