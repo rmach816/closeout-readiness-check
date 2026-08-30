@@ -90,6 +90,9 @@ test("the public page wires activation and billing returns to a real guide secti
   const guide = await readFile(join(process.cwd(), "public/guide/index.html"), "utf8");
   const config = JSON.parse(await readFile(join(process.cwd(), "vercel.json"), "utf8"));
   assert.match(html, /src="\/activation\.js" defer/);
+  assert.ok(html.includes('href="/site.css?v=activation-1"'), "activation styling must bypass pre-checkout browser caches");
+  const css = await readFile(join(process.cwd(), "public/site.css"), "utf8");
+  assert.match(css, /\[hidden\]\s*\{\s*display:\s*none\s*!important;/);
   for (const id of ["computer-activation", "activation-plans", "activation-status"]) assert.ok(html.includes(`id="${id}"`));
   assert.ok(guide.includes('id="billing"'));
   assert.ok(guide.includes("manage_closeout_subscription"));
